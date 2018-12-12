@@ -1,0 +1,39 @@
+{
+  "name": "alnv/topics-picker-provider",
+  "type": "contao-bundle",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Alexander Naumov",
+      "homepage": "https://alexandernaumov.de",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Alnv\\TopicsPickerProviderBundle\\": "src/"
+    },
+    "classmap": [
+      "src/Resources/contao/"
+    ],
+    "exclude-from-classmap": [
+      "src/Resources/contao/config/"
+    ]
+  },
+  "require": {
+    "php":">=7.1",
+    "contao/core-bundle":"~4.4",
+    "alnv/catalog-manager": "^1.28"
+  },
+  "config": {
+    "preferred-install": "dist"
+  },
+  "extra": {
+    "contao": {
+      "sources": {
+        "": "system/modules/topics-picker-provider"
+      }
+    },
+    "contao-manager-plugin": "Alnv\\TopicsPickerProviderBundle\\ContaoManager\\Plugin"
+  }
+}
