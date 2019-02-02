@@ -80,7 +80,8 @@ class TopicsPickerProvider extends AbstractPickerProvider implements DcaPickerPr
             'gesichter-der-energiewende' => 28,
             'klimawandel-umwelt' => 25,
             'offshore-wind' => 24,
-            'trends-technik' => 26
+            'trends-technik' => 26,
+            'koepfe-der-energiewende' => 28
         ];
 
         if ( $objEntity->category ) {
