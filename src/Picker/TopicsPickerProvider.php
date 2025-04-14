@@ -7,39 +7,38 @@ use Contao\CoreBundle\Framework\FrameworkAwareTrait;
 use Contao\CoreBundle\Picker\AbstractPickerProvider;
 use Contao\CoreBundle\Picker\DcaPickerProviderInterface;
 use Contao\CoreBundle\Picker\PickerConfig;
+use Contao\Database;
 
 
-class TopicsPickerProvider extends AbstractPickerProvider implements DcaPickerProviderInterface, FrameworkAwareInterface {
-
+class TopicsPickerProvider extends AbstractPickerProvider implements DcaPickerProviderInterface, FrameworkAwareInterface
+{
 
     use FrameworkAwareTrait;
 
-
-    public function getName(): string {
-
+    public function getName(): string
+    {
         return 'topicsPicker';
     }
 
-
-    public function supportsContext( $context ): bool {
+    public function supportsContext($context): bool
+    {
 
         return 'link' === $context;
     }
 
-
-    public function supportsValue( PickerConfig $config ): bool {
-
-        return false !== strpos( $config->getValue(), '{{CTLG_ENTITY_URL::');
+    public function supportsValue(PickerConfig $config): bool
+    {
+        return false !== strpos($config->getValue(), '{{CTLG_ENTITY_URL::');
     }
 
 
-    public function getDcaTable(): string {
-
+    public function getDcaTable(PickerConfig|null $config = null): string
+    {
         return 'ctlg_topics';
     }
 
-
-    public function getDcaAttributes(PickerConfig $config): array {
+    public function getDcaAttributes(PickerConfig $config): array
+    {
 
         $attributes = ['fieldType' => 'radio'];
 
@@ -50,12 +49,12 @@ class TopicsPickerProvider extends AbstractPickerProvider implements DcaPickerPr
 
         if ($this->supportsValue($config)) {
 
-            $strTag = str_replace('{{', '', $config->getValue() );
-            $strTag = str_replace('}}', '', $strTag );
-            $arrValues = explode( '::', $strTag );
+            $strTag = str_replace('{{', '', $config->getValue());
+            $strTag = str_replace('}}', '', $strTag);
+            $arrValues = explode('::', $strTag);
             $strValue = '';
 
-            if ( is_array( $arrValues ) && isset( $arrValues[2] ) ) {
+            if (is_array($arrValues) && isset($arrValues[2])) {
 
                 $strValue = $arrValues[2];
             }
@@ -66,15 +65,14 @@ class TopicsPickerProvider extends AbstractPickerProvider implements DcaPickerPr
         return $attributes;
     }
 
-
-    public function convertDcaValue( PickerConfig $config, $value ): string {
+    public function convertDcaValue(PickerConfig $config, $value): string
+    {
 
         $strModuleId = 'noID';
-        $objDatabase = \Database::getInstance();
-        $objEntity = $objDatabase->prepare( 'SELECT * FROM ctlg_topics WHERE id = ?' )->limit(1)->execute( $value );
+        $objDatabase = Database::getInstance();
+        $objEntity = $objDatabase->prepare('SELECT * FROM ctlg_topics WHERE id = ?')->limit(1)->execute($value);
 
         $arrModulesByCategory = [
-
             'energiepolitik' => 13,
             'energiewirtschaft' => 23,
             'gesichter-der-energiewende' => 28,
@@ -84,19 +82,15 @@ class TopicsPickerProvider extends AbstractPickerProvider implements DcaPickerPr
             'koepfe-der-energiewende' => 28
         ];
 
-        if ( $objEntity->category ) {
-
-            $strModuleId = $arrModulesByCategory[ $objEntity->category ];
+        if ($objEntity->category) {
+            $strModuleId = $arrModulesByCategory[$objEntity->category];
         }
 
-        return '{{CTLG_ENTITY_URL::'.$strModuleId.'::'.$value.'}}';
+        return '{{CTLG_ENTITY_URL::' . $strModuleId . '::' . $value . '}}';
     }
 
-
-    protected function getRouteParameters(PickerConfig $config = null): array {
-
-        $arrParams = [ 'do' => 'topics' ];
-
-        return $arrParams;
+    protected function getRouteParameters(PickerConfig $config = null): array
+    {
+        return ['do' => 'topics'];
     }
 }

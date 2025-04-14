@@ -1,16 +1,16 @@
 services:
-    _instanceof:
-        Contao\CoreBundle\Framework\FrameworkAwareInterface:
-            calls:
-                - ["setFramework", ["@contao.framework"]]
+  _instanceof:
+    Contao\CoreBundle\Framework\FrameworkAwareInterface:
+      calls:
+        - [ "setFramework", [ "@contao.framework" ] ]
 
-    topics.picker.topics_picker:
-            class: Alnv\TopicsPickerProviderBundle\Picker\TopicsPickerProvider
-            arguments:
-                - "@knp_menu.factory"
-                - "@router"
-                - "@translator"
-            calls:
-                - [setTokenStorage, ["@security.token_storage"]]
-            tags:
-                - { name: contao.picker_provider, priority: 128 }
+  topics.picker.topics_picker:
+    class: Alnv\TopicsPickerProviderBundle\Picker\TopicsPickerProvider
+    arguments:
+      - "@knp_menu.factory"
+      - "@router"
+      - "@translator"
+    calls:
+      - [ setTokenStorage, [ "@security.token_storage" ] ]
+    tags:
+      - { name: contao.picker_provider, priority: 128 }
