@@ -22,7 +22,6 @@ class TopicsPickerProvider extends AbstractPickerProvider implements DcaPickerPr
 
     public function supportsContext($context): bool
     {
-
         return 'link' === $context;
     }
 

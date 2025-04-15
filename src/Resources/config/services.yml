@@ -6,11 +6,5 @@ services:
 
   topics.picker.topics_picker:
     class: Alnv\TopicsPickerProviderBundle\Picker\TopicsPickerProvider
-    arguments:
-      - "@knp_menu.factory"
-      - "@router"
-      - "@translator"
-    calls:
-      - [ setTokenStorage, [ "@security.token_storage" ] ]
     tags:
       - { name: contao.picker_provider, priority: 128 }
